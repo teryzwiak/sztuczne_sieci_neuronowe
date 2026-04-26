@@ -14,6 +14,10 @@ if "messages" not in st.session_state:
 for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
 
+uploaded_file = st.file_uploader("Upload an file", type=["jpg", "jpeg", "png"])
+
+
+
 if prompt := st.chat_input():
     if not api_key:
         st.info("Invalid API key.")
