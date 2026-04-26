@@ -1,4 +1,5 @@
 from io import StringIO
+import pandas as pd
 
 import streamlit as st
 from openai import OpenAI
@@ -28,6 +29,10 @@ if uploaded_file is not None:
 
     # To read file as string:
     string_data = stringio.read()
+    #st.write(string_data)
+
+    # Can be used wherever a "file-like" object is accepted:
+    dataframe = pd.read_csv(uploaded_file)
 
 
 
@@ -36,7 +41,7 @@ if prompt := st.chat_input():
         st.info("Invalid API key.")
         st.stop()
     client = OpenAI(api_key=api_key, base_url=base_url)
-    st.session_state.messages.append({"role": "user", "content": prompt, "files": [string_data if uploaded_file is not None else None]})
+    st.session_state.messages.append({"role": "user", "content": prompt, "files": [dataframe]})
     st.chat_message("user").write(prompt)
     
     response = client.chat.completions.create(
