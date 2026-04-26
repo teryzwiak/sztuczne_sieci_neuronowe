@@ -1,3 +1,5 @@
+from io import StringIO
+
 import streamlit as st
 from openai import OpenAI
 import os
@@ -15,7 +17,17 @@ for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
 
 uploaded_file = st.file_uploader("Upload an file", type=["jpg", "jpeg", "png"])
+if uploaded_file is not None:
+    # To read file as bytes:
+    bytes_data = uploaded_file.getvalue()
+    st.write(bytes_data)
 
+    # To convert to a string based IO:
+    stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
+    st.write(stringio)
+
+    # To read file as string:
+    string_data = stringio.read()
 
 
 
@@ -24,7 +36,7 @@ if prompt := st.chat_input():
         st.info("Invalid API key.")
         st.stop()
     client = OpenAI(api_key=api_key, base_url=base_url)
-    st.session_state.messages.append({"role": "user", "content": prompt, "files": [uploaded_file]})
+    st.session_state.messages.append({"role": "user", "content": prompt, "files": [string_data if uploaded_file is not None else None]})
     st.chat_message("user").write(prompt)
     
     response = client.chat.completions.create(
