@@ -24,7 +24,7 @@ if prompt := st.chat_input():
         st.info("Invalid API key.")
         st.stop()
     client = OpenAI(api_key=api_key, base_url=base_url)
-    st.session_state.messages.append({"role": "user", "content": prompt})
+    st.session_state.messages.append({"role": "user", "content": prompt, "files": [uploaded_file]})
     st.chat_message("user").write(prompt)
     
     response = client.chat.completions.create(
