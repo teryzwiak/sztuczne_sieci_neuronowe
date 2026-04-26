@@ -1,0 +1,1 @@
+# sztuczne_sieci_neuronowe
