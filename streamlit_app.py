@@ -14,7 +14,7 @@ if "messages" not in st.session_state:
 for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
 
-uploaded_file = st.file_uploader("Upload an file", type=["jpg", "jpeg", "png"])
+
 
 
 
@@ -25,6 +25,7 @@ if prompt := st.chat_input():
     client = OpenAI(api_key=api_key, base_url=base_url)
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
+    uploaded_file = st.file_uploader("Upload an file", type=["jpg", "jpeg", "png"])
     response = client.chat.completions.create(
         model=selected_model,
         messages=st.session_state.messages
