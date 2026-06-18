@@ -5,3 +5,5 @@ langchain-huggingface
 sentence-transformers
 faiss-cpu
 numpy
+PyMuPDF
+
